@@ -1,5 +1,6 @@
 let grid = [];
 let score = 0;
+const MAX_RANKINGS = 5;
 
 function initGame() {
     grid = Array(16).fill(0);
@@ -8,6 +9,7 @@ function initGame() {
     addNewNumber();
     addNewNumber();
     updateDisplay();
+    displayRankings();
 }
 
 function addNewNumber() {
@@ -45,7 +47,12 @@ function isGameOver() {
         }
     }
     
-    return true;
+    if (isOver) {
+        updateRankings(score);
+        alert('游戏结束！最终得分：' + score);
+    }
+    
+    return isOver;
 }
 
 function move(direction) {
@@ -133,6 +140,59 @@ document.addEventListener('touchend', (event) => {
                 move('up');
             }
         }
+    }
+});
+
+function updateRankings(newScore) {
+    let rankings = JSON.parse(localStorage.getItem('rankings') || '[]');
+    
+    rankings.push({
+        score: newScore,
+        date: new Date().toLocaleDateString()
+    });
+    
+    rankings.sort((a, b) => b.score - a.score);
+    rankings = rankings.slice(0, MAX_RANKINGS);
+    
+    localStorage.setItem('rankings', JSON.stringify(rankings));
+    
+    displayRankings();
+}
+
+function displayRankings() {
+    const rankings = JSON.parse(localStorage.getItem('rankings') || '[]');
+    const rankingsList = document.getElementById('rankings');
+    
+    rankingsList.innerHTML = rankings.map(item => 
+        `<li>${item.score}分 (${item.date})</li>`
+    ).join('');
+}
+
+// 添加键盘事件监听
+document.addEventListener('keydown', (event) => {
+    event.preventDefault(); // 防止按键滚动页面
+    
+    switch (event.key) {
+        case 'ArrowLeft':
+        case 'a':
+        case 'A':
+            move('left');
+            break;
+        case 'ArrowRight':
+        case 'd':
+        case 'D':
+            move('right');
+            break;
+        case 'ArrowUp':
+        case 'w':
+        case 'W':
+            move('up');
+            break;
+        case 'ArrowDown':
+        case 's':
+        case 'S':
+            move('down');
+            break;
     }
 });
 
