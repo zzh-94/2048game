@@ -70,3 +70,25 @@ button:hover {
 * {
     -webkit-tap-highlight-color: transparent;
 }
+
+.leaderboard {
+    margin: 20px 0;
+    padding: 10px;
+    background: rgba(238, 228, 218, 0.5);
+    border-radius: 6px;
+}
+
+.leaderboard h2 {
+    margin: 0 0 10px 0;
+    color: #776e65;
+}
+
+#rankings {
+    padding-left: 25px;
+    margin: 0;
+}
+
+#rankings li {
+    color: #776e65;
+    line-height: 1.5;
+}
