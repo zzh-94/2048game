@@ -47,12 +47,9 @@ function isGameOver() {
         }
     }
     
-    if (isOver) {
-        updateRankings(score);
-        alert('游戏结束！最终得分：' + score);
-    }
-    
-    return isOver;
+    updateRankings(score);
+    alert('游戏结束！最终得分：' + score);
+    return true;
 }
 
 function move(direction) {
